@@ -6,7 +6,7 @@ Choose your language:
 <!-- Primary README (English). Other languages: README.ru.md, README.uz.md -->
 # ⚙️ Emis API Exporter
 
-�� English • [Русский](README.ru.md) �� • [Oʻzbekcha](README.uz.md) 🇺🇿
+🇺🇸 English • [Русский](README.ru.md) 🇷🇺 • [Oʻzbekcha](README.uz.md) 🇺🇿
 
 A small, focused Python utility to export student, teacher and semester data from the EMIS web API and save it to a local JSON file.
 
