@@ -15,6 +15,8 @@ class ApiClient:
         self.me_url = URLBuilder.join(base, "/api/v2/auth/me/pemis/")
         self.groups_url = URLBuilder.join(base, "/api/v2/admin/long/group/")
         self.students_groups_url = URLBuilder.join(base, "/api/v2/admin/student/group/")
+        self.semesters_url = URLBuilder.join(base, "/api/v2/admin/journal/semester-grade/")
+        self.group_teacher_url = URLBuilder.join(base, "/api/v2/admin/long/group-teacher/")
         self.headers: Optional[Dict[str, str]] = None
         self.page: Optional[Page] = None
         self.context: Optional[BrowserContext] = None
@@ -165,4 +167,17 @@ class ApiClient:
             self.students_groups_url,
             base_params={"group_id": str(group_id)},
             limit=limit
+        )
+    
+    def fetch_semester(self, student_id: int) -> List[Dict[str, Any]]:
+        return self._paginate(
+            self.semesters_url,
+            base_params={"student_id": str(student_id)}
+        )
+
+    def fetch_group_teacher(self, group_id: int) -> List[Dict[str, Any]]:
+        return self._paginate(
+            self.group_teacher_url,
+            base_params={"group_id": str(group_id)},
+            limit=100
         )

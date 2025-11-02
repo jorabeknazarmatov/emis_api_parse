@@ -40,12 +40,32 @@ class EmisExporter:
 
             students = self.api.fetch_group_students(group_id, limit=100)
             logger.info(f"Студентов в группе {group_id}: {len(students)}")
-
-            name = out_prefix or f"g_students_{group_id}"
-            Files.save_json({"count": len(students), "results": students}, name)
-            # при желании можно дополнить заголовки CSV по фактическим полям
             
-            logger.info(f"Сохранено: {name}.json")
             return students
+    
+    def export_semester(self, student_id: int, out_prefix: Optional[str] = None) -> None:
+        with self.session as s:
+            ctx = s.get_context()
+            self.api.bind(ctx)
 
+            me = self.api.me()
+            logger.info(f"Авторизован как: {me.get('full_name')}")
+
+            semester = self.api.fetch_semester(student_id)
+            logger.info(f"Семестр студента {student_id}: {len(semester)}")
+
+            return semester
+
+    def export_group_teacher(self, group_id: int, out_prefix: Optional[str] = None) -> None:
+        with self.session as s:
+            ctx = s.get_context()
+            self.api.bind(ctx)
+
+            me = self.api.me()
+            logger.info(f"Авторизован как: {me.get('full_name')}")
+
+            teachers = self.api.fetch_group_teacher(group_id)
+            logger.info(f"Преподаватели группы {group_id}: {len(teachers)}")
+
+            return teachers
   
