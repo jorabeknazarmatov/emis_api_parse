@@ -1,71 +1,71 @@
-# Emis API Exporter
+# ⚙️ Emis API Exporter
 
-Инструкция по установке и запуску (Windows PowerShell).
+🇬🇧 [English](README.md) • 🇷🇺 Русский • [Oʻzbekcha](README.uz.md) 🇺🇿
 
-1) Установка виртуального окружения (venv)
+Небольшая утилита на Python для экспорта данных студентов, преподавателей и семестров из EMIS API и сохранения результата в локальном JSON-файле.
 
-Откройте PowerShell в корне проекта и выполните:
+## Быстрый старт
+
+1) Создайте и активируйте виртуальное окружение (PowerShell)
 
 ```powershell
 python -m venv .venv
-# Активировать в PowerShell
+# активировать в PowerShell
 .\.venv\Scripts\Activate.ps1
 ```
 
-Если используете cmd.exe:
+Если вы используете cmd.exe:
 
 ```cmd
 .venv\Scripts\activate.bat
 ```
 
-2) Установка зависимостей
-
-После активации venv установите зависимости:
+2) Установите зависимости
 
 ```powershell
 python -m pip install --upgrade pip
 pip install -r requirements.txt
-# Установите браузеры для Playwright (один раз)
+# Установите браузеры Playwright (один раз)
 python -m playwright install
 ```
 
-3) Заполнить `.env`
+3) Настройка `.env`
 
-В проекте используется dotenv. В `core/config.py` требуются переменные:
+Создайте файл `.env` в корне проекта и добавьте переменные:
 
-- ONEID_LOGIN
-- ONEID_PASSWORD
-
-Скопируйте пример (если есть) и создайте `.env` в корне проекта или создайте файл `.env` в корне со следующими строками:
-
-```
+```dotenv
 ONEID_LOGIN=your_login_here
 ONEID_PASSWORD=your_password_here
 ```
 
-Примечание: `load_dotenv()` ищет `.env` в текущей рабочей директории. Если вы запускаете `main.py` из корня проекта — положите `.env` в корень.
+Проект загружает эти переменные через `python-dotenv` (см. `core/config.py`). Поместите `.env` в директорию, из которой вы запускаете `main.py` (обычно корень проекта).
 
-4) Положите в корень проекта файлы учебных планов
+4) Поместите учебные планы
 
-Убедитесь, что файлы `feldsherlik_ishi.json` и `hamshiralik_ishi.json` находятся в корне проекта (рядом с `main.py`). Эти файлы используются как входные учебные планы.
+Убедитесь, что в корне проекта рядом с `main.py` лежат:
+
+- `feldsherlik_ishi.json`
+- `hamshiralik_ishi.json`
+
+Эти файлы используются в качестве входных учебных планов при экспорте.
 
 5) Запуск
-
-Активируйте venv (см. шаг 1) и запустите:
 
 ```powershell
 python main.py
 ```
 
-6) Результаты
+6) Результат
 
-После успешного выполнения данные будут сохранены в `all_students.json` в корне проекта.
+Данные будут сохранены в `all_students.json` в корне проекта.
 
-Дополнительно / отладка
+## Примечание / Notes / Eslatma
 
-- Если Playwright жалуется на браузеры, выполните `python -m playwright install chromium` или `python -m playwright install --with-deps`.
-- Файл состояния для OneID хранится в `oneid_state.json` (используется для cookies/storage).
-- Логирование выводится через `core/logger.py` — смотрите вывод в консоли для диагностики.
+- ▶️ Если Playwright сообщает об отсутствии браузеров, выполните `python -m playwright install chromium` или `python -m playwright install --with-deps`.
+- 🧩 Состояние сессии OneID сохраняется в `oneid_state.json` — удобно для избежания повторной авторизации.
+- 📦 Логи пишутся через `core/logger.py` — смотрите вывод в консоли для диагностики.
+- 🔒 Не коммитьте `.env` в репозиторий. Добавьте его в `.gitignore`, если нужно.
 
-Если нужно, могу добавить пример `.env.example` в корень или автоматический скрипт для создания venv и установки зависимостей.
+---
 
+MIT © Turabek
