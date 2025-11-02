@@ -1,6 +1,6 @@
 # ⚙️ Emis API Exporter
 
-🇬🇧 [English](README.md) • 🇷🇺 Русский • [Oʻzbekcha](README.uz.md) 🇺🇿
+🇺🇸 [English](README.md) • 🇷🇺 Русский • [Oʻzbekcha](README.uz.md) 🇺🇿
 
 Небольшая утилита на Python для экспорта данных студентов, преподавателей и семестров из EMIS API и сохранения результата в локальном JSON-файле.
 
