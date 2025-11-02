@@ -1,6 +1,6 @@
 # ⚙️ Emis API Exporter
 
-🇬🇧 [English](README.md) • 🇷🇺 [Русский](README.ru.md) • 🇺🇿 Oʻzbekcha
+🇺🇸 [English](README.md) • 🇷🇺 [Русский](README.ru.md) • 🇺🇿 Oʻzbekcha
 
 EMIS veb-API дан talaba, o‘qituvchi va semestr ma’lumotlarini chiqarib olish va natijani lokal JSON faylga saqlash uchun kichik Python utilitasi.
 
