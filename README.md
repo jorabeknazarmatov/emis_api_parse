@@ -1,4 +1,4 @@
-# 🇺🇿 Emis API Exporter
+# Emis API Exporter
 
 Choose your language:
 | 🌍 Language | File |
