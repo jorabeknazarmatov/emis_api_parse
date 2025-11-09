@@ -28,50 +28,34 @@ if __name__ == "__main__":
         temp_students = list()
 
         for group in temp_groups:
-            logger.info("Processing group %s (%s)", group.get('id'), group.get('name'))
-
-            if group['id'] == 23695:
-                curriculum_file = "feldsherlik_ishi.json"
-            else:
-                curriculum_file = "hamshiralik_ishi.json"
-
-            with open(curriculum_file, "r", encoding="utf-8") as file:
-                curriculum = json.load(file)
-
-            logger.debug("Loaded curriculum from %s for group %s", curriculum_file, group.get('id'))
-                        
-            # O'qituvchilarni saqlash
-            temp_teachers = dict()
-            teacher_data = exporter.export_group_teacher(group_id=group['id'], out_prefix=None)
-
-            logger.info("Exported %d teacher(s) for group %s", len(teacher_data or []), group.get('id'))
+            logger.info("Processing group %s (%s)", group['id'], group['name'])
             
-            for techer in teacher_data:
-                temp_teachers['id'] = techer['id']
-                temp_teachers['employee_data'] = techer['employee_data']
-                temp_teachers['semester_subject'] = techer['semester_subject_data']
-                temp_teachers['lecture_type'] = techer['lecture_type']
-                temp_teachers['part'] = techer['part']
-              
-            # Guruhdagi har bir o'quvchini semestrlari билан бирга саlаш
-            student_data = exporter.export_group_students(group_id=group['id'], out_prefix=None)
+            temp_students = []
+            temp_teachers = []
 
-            logger.info("Exported %d student(s) for group %s", len(student_data or []), group.get('id'))
+            curriculum_file = (
+                "feldsherlik_ishi.json" if group['id'] == 23695 else "hamshiralik_ishi.json"
+            )
+            with open(curriculum_file, "r", encoding="utf-8") as f:
+                curriculum = json.load(f)
 
-            for index, student in enumerate(student_data, 1):
-                logger.debug("Exporting semester for student %s (group %s)", student.get('id'), group.get('id'))
-                semester_data = exporter.export_semester(student_id=student['id'], out_prefix=None)
-                student['semester_data'] = semester_data
-                
-                # Guruh o'quvchilarини bo'limларга bo'lish
-                if round(len(student_data) / 2) > index:
-                    student['part'] = 2
-                else:
-                    student['part'] = 1
-                
-                temp_students.append(student)
-                        
-                
+            teacher_data = exporter.export_group_teacher(group_id=group['id'], out_prefix=None) or []
+            for t in teacher_data:
+                temp_teachers.append({
+                    "id": t['id'],
+                    "employee_data": t['employee_data'],
+                    "semester_subject": t['semester_subject_data'],
+                    "lecture_type": t['lecture_type'],
+                    "part": t['part']
+                })
+
+            student_data = exporter.export_group_students(group_id=group['id'], out_prefix=None) or []
+            half = len(student_data) // 2
+            for i, s in enumerate(student_data, 1):
+                s['semester_data'] = exporter.export_semester(student_id=s['id'], out_prefix=None)
+                s['part'] = 1 if i <= half else 2
+                temp_students.append(s)
+
             group_data[group['id']] = {
                 "group_name": group['name'],
                 "curriculum": curriculum,
